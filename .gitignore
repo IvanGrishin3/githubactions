@@ -1,0 +1,17 @@
+.terraform/
+.env
+.envrc
+.env-*
+.idea/
+terraform.tfstate.backup
+*.pyc
+*.pem
+*.key
+*.exe
+bin/
+dependencies/
+include/
+lib/
+local/
+share/
+builds/
