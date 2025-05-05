@@ -14,7 +14,7 @@ permissions:
 env:
   ENVIRONMENT_NAME: infrastructure
   TF_ROOT: .
-  ROLE_ARN: arn:aws:iam::908646820563:role/gitlab_ci-full-access
+  ROLE_ARN: arn:aws:iam::908646820563:role/github-oidc-provider-role
   PROJECT_NAME: ${{ github.repository }}
   REGION: eu-central-1
 
