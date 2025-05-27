@@ -58,7 +58,7 @@ jobs:
         with:
           name: terraform-artifacts
           path: |
-            ${{ env.TF_ROOT }}/plan.tfout
+            ${{ env.TF_ROOT }}/tfplan.cache
             ${{ env.TF_ROOT }}/.terraform.lock.hcl
             ${{ env.TF_ROOT }}/.terraform/
 
