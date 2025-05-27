@@ -110,11 +110,13 @@ jobs:
           name: terraform-artifacts
           path: ${{ env.TF_ROOT }}
 
-      - name: Restore Terraform Working Directory
-        run: |
-          cp ${{ env.TF_ROOT }}/.terraform.lock.hcl ${{ env.TF_ROOT }}/.terraform.lock.hcl || true
-          mkdir -p ${{ env.TF_ROOT }}/.terraform || true
-          cp -r ${{ env.TF_ROOT }}/.terraform/* ${{ env.TF_ROOT }}/.terraform/ || true
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.10.0
+
+      - name: Terraform Init
+        run: terraform init -reconfigure
 
       - name: Terraform Apply
         run: terraform apply -auto-approve ${{ env.TF_ROOT }}/tfplan.cache
