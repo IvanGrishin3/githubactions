@@ -1,4 +1,4 @@
-name: Terraform CI
+name: Deplo infra
 
 on:
   workflow_call:

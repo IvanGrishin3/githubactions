@@ -1,6 +1,16 @@
-name: Call Terraform CI
+name: First test
 
 on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - "**"
+    types:
+      - opened
+      - synchronize
   workflow_dispatch:
 
 jobs:
