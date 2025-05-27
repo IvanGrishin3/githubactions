@@ -1,0 +1,11 @@
+name: Call Terraform CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  call_terraform_ci:
+    uses: githubactions/.github/workflows/workflow.yml@main
+    with:
+      REGION: eu-north-1
+      ROLE_ARN: arn:aws:iam::093591452678:role/test_role
