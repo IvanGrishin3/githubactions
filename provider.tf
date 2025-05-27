@@ -1,8 +1,8 @@
 terraform {
   backend "s3" {
-    bucket       = "osp-terraform-states"
+    bucket       = "ivan-tfstate"
     key          = "test.tfstate"
-    region       = "eu-central-1"
+    region       = "eu-north-1"
     encrypt      = true
     use_lockfile = true
   }
