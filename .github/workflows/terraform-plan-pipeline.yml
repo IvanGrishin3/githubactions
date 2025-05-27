@@ -54,7 +54,7 @@ jobs:
         run: terraform plan -out=${{ env.TF_ROOT }}/tfplan.cache
         
       - name: Save Terraform Plan and Workspace
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: terraform-artifacts
           path: |
@@ -102,7 +102,7 @@ jobs:
           terraform_version: 1.10.0
 
       - name: Download Terraform Artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: terraform-artifacts
           path: ${{ env.TF_ROOT }}
