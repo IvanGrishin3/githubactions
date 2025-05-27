@@ -1,4 +1,4 @@
-resource "aws_iam_role" "pipeline" {
+resource "aws_iam_role" "pipeline2" {
   name = "pipeline"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
