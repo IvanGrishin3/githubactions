@@ -23,11 +23,10 @@ jobs:
     defaults:
       run:
         working-directory: ${{ env.TF_ROOT }}
-        
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
-          
+
       - name: Configure AWS credentials via OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -51,7 +50,7 @@ jobs:
       - name: Terraform Plan
         run: terraform plan -out=tfplan.cache
         
-      - name: Save Terraform Artifacts (Plan, Lock, Workspace)
+      - name: Save Terraform Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: terraform-artifacts
@@ -84,7 +83,6 @@ jobs:
     defaults:
       run:
         working-directory: ${{ env.TF_ROOT }}
-
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
@@ -105,7 +103,7 @@ jobs:
         with:
           name: terraform-artifacts
           path: ${{ env.TF_ROOT }}
-          
+
       - name: Terraform Init
         run: terraform init -reconfigure
 
