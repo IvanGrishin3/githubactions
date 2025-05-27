@@ -1,6 +1,5 @@
 name: Terraform CI
 
-
 on:
   push:
     branches:
@@ -22,14 +21,10 @@ env:
   ENVIRONMENT_NAME: TEST
   ROLE_ARN: arn:aws:iam::093591452678:role/test_role
   REGION: eu-north-1
-  TF_ROOT: .
 
 jobs:
   terraform_plan:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ${{ env.TF_ROOT }}
         
     steps:
       - name: Checkout Repo
@@ -49,6 +44,18 @@ jobs:
       - name: Terraform Init
         run: terraform init -reconfigure
 
+      - name: Save .terraform directory
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-init
+          path: .terraform/
+
+      - name: Save terraform.lock.hcl
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-lock
+          path: terraform.lock.hcl
+
       - name: Terraform validate
         run: terraform validate
 
@@ -56,25 +63,11 @@ jobs:
         run: terraform fmt -check
 
       - name: Terraform Plan
-        run: terraform plan -out=tfplan.cache
-        
-      - name: Save Terraform Artifacts (Plan, Lock, Workspace)
-        uses: actions/upload-artifact@v4
-        with:
-          name: terraform-artifacts
-          path: |
-            ${{ env.TF_ROOT }}/tfplan.cache
-            ${{ env.TF_ROOT }}/.terraform.lock.hcl
-            ${{ env.TF_ROOT }}/.terraform
+        run: terraform plan
 
   terraform_apply:
-    name: Terraform Apply
     runs-on: ubuntu-latest
     needs: terraform_plan
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-    defaults:
-      run:
-        working-directory: ${{ env.TF_ROOT }}
 
     steps:
       - name: Checkout Repo
@@ -91,11 +84,17 @@ jobs:
         with:
           terraform_version: 1.10.0
 
-      - name: Download Terraform Artifacts
+      - name: Download .terraform directory
         uses: actions/download-artifact@v4
         with:
-          name: terraform-artifacts
-          path: ${{ env.TF_ROOT }}
+          name: terraform-init
+          path: .terraform/
+
+      - name: Download terraform.lock.hcl
+        uses: actions/download-artifact@v4
+        with:
+          name: terraform-lock
+          path: .
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve tfplan.cache
+        run: terraform apply -auto-approve
