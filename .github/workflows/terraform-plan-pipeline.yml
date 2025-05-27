@@ -6,6 +6,11 @@ on:
     branches:
       - "**"
   pull_request:
+    branches:
+      - "**"
+    types:
+      - opened
+      - synchronize
   workflow_dispatch:
 
 permissions:
