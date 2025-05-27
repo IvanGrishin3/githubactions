@@ -1,17 +1,16 @@
 name: Terraform CI
 
 on:
-  push:
-    branches:
-      - main
-      - master
-  pull_request:
-    branches:
-      - "**"
-    types:
-      - opened
-      - synchronize
-  workflow_dispatch:
+  workflow_call:
+    inputs:
+      REGION:
+        description: 'AWS Region'
+        required: true
+        type: string
+      ROLE_ARN:
+        description: 'AWS IAM Role ARN'
+        required: true
+        type: string
 
 permissions:
   id-token: write
@@ -19,17 +18,19 @@ permissions:
 
 env:
   ENVIRONMENT_NAME: TEST
-  ROLE_ARN: arn:aws:iam::093591452678:role/test_role
-  REGION: eu-north-1
 
 jobs:
-  terraform_plan:
+  deploy_infra:
     runs-on: ubuntu-latest
-        
+
+    env:
+      REGION: ${{ inputs.REGION }}
+      ROLE_ARN: ${{ inputs.ROLE_ARN }}
+
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
-          
+
       - name: Configure AWS credentials via OIDC
         uses: aws-actions/configure-aws-credentials@v4
         with:
