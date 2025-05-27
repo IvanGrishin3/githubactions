@@ -117,4 +117,4 @@ jobs:
           cp -r ${{ env.TF_ROOT }}/.terraform/* ${{ env.TF_ROOT }}/.terraform/ || true
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve plan.tfout
+        run: terraform apply -auto-approve ${{ env.TF_ROOT }}/tfplan.cache
