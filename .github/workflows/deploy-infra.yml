@@ -3,11 +3,11 @@ name: Deploy infrastructure
 on:
   workflow_call:
     inputs:
-      region:
+      REGION:
         description: 'The AWS region to deploy to'
         required: true
         type: string
-      role_arn:
+      ROLE_ARN:
         description: 'The AWS IAM Role ARN to assume for deployment'
         required: true
         type: string
